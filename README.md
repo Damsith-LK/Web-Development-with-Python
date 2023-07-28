@@ -16,3 +16,9 @@
       Press CTRL+C to quit
       ```
    or with `app.run()`
+
+
+## Things I have learned and projects I have finished
+- Day 54 📖
+   - Learnt about Python decorators and "@" syntax
+   - Ran my first Flask server
