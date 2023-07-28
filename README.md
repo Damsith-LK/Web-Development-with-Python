@@ -6,7 +6,7 @@
 ## Flask Steps for running a web server 🚀
 
 1. Set the environmental variable **FLASK_APP** to the name of flask file: `set FLASK_APP=something.py` (This command is for windows)
-2. Run that flask app
+2. Run that flask app using a command
       ```
       flask run
        * Serving Flask app 'C:\Users\Sampath Wijekoon\PycharmProjects\Web-Development-with-Python\my_first_flask.py'
@@ -15,3 +15,4 @@
        * Running on http://127.0.0.1:5000
       Press CTRL+C to quit
       ```
+   or with `app.run()`
