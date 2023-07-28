@@ -20,5 +20,5 @@
 
 ## Things I have learned and projects I have finished
 - Day 54 📖
-   - Learnt about Python decorators and "@" syntax
+   - Learnt about some cmd commands, Python decorators and "@" syntax
    - Ran my first Flask server
