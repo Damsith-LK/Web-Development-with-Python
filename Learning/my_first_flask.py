@@ -5,14 +5,34 @@ from flask import Flask
 
 app = Flask(__name__)
 
+# Day 55 - Going to make decorators to bold, emphasis, etc for bye(). This is a challenge
+def make_bold(func):
+    def wrapper():
+        return f"<b>{func()}</b>"
+    return wrapper
+def make_emphasis(func):
+    def wrapper():
+        return f"<em>{func()}</em>"
+    return wrapper
+def make_underlined(func):
+    def wrapper():
+        return f"<u>{func()}</u>"
+    return wrapper
+
+
 @app.route("/")
 def hello_world():
     return "Hello World!!!"
 
+
 @app.route("/bye")
+@make_bold
+@make_emphasis
+@make_underlined
 def bye():
     """This is gonna get triggerd if the user adds '/bye' into the end of the URL and hit enter"""
     return "Bye!"
+
 
 # We can use variables in this <way>
 @app.route("/user/<username>")
