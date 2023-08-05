@@ -15,10 +15,15 @@
        * Running on http://127.0.0.1:5000
       Press CTRL+C to quit
       ```
-   or with `app.run()`
+   or with `app.run()` in the python file
 
 
 ## Things I have learned and projects I have finished
+
+- Day 55 📖
+   - Learnt about advaned decorators in Python
+   - Created a higher-lower game in website
+
 - Day 54 📖
    - Learnt about some cmd commands, Python decorators and "@" syntax
    - Ran my first Flask server
