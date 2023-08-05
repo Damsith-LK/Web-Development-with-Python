@@ -18,12 +18,23 @@
    or with `app.run()` in the python file
 
 
-## Things I have learned and projects I have finished
+## Things I have learned and projects I have finished ✅
+
+- Day 56 🧑‍💻
+   - Learnt how to use .html and .css files with Flask
+   - Create a name card website
 
 - Day 55 📖
-   - Learnt about advaned decorators in Python
+   - Learnt about advanced decorators in Python
    - Created a higher-lower game in website
 
 - Day 54 📖
    - Learnt about some cmd commands, Python decorators and "@" syntax
    - Ran my first Flask server
+ 
+## Pictures 🖼️
+
+- Name Card project (Day 56)
+  
+  ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/33ca3fd3-b20a-4bb6-97bf-d36936b0e1aa)
+
