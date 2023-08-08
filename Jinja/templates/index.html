@@ -11,6 +11,8 @@
     In the h3 tag we are going to display a random number processed from server.py
     -->
     <h3>Random Number: {{ rand_num }}</h3>
+    <!--URL building-->
+    <a href="{{ url_for('blog') }}">Go to blogs</a>
 </body>
 <footer>
     <p>Copyright {{ year }}. Built by Damsith Wijekoon</p>
