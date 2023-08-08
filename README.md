@@ -6,7 +6,7 @@
 ## Flask Steps for running a web server 🚀
 
 1. Set the environmental variable **FLASK_APP** to the name of flask file: `set FLASK_APP=something.py` (This command is for windows)
-2. Run that flask app using a command
+2. Run that flask app using the command `flask run`
       ```
       flask run
        * Serving Flask app 'C:\Users\Sampath Wijekoon\PycharmProjects\Web-Development-with-Python\my_first_flask.py'
@@ -19,6 +19,10 @@
 
 
 ## Things I have learned and projects I have finished ✅
+
+- Day 57 🧑‍💻
+   - Learnt about Jinja
+   - Create a super simple blog website using Flask, Jinja, css and html
 
 - Day 56 🧑‍💻
    - Learnt how to use .html and .css files with Flask
@@ -33,6 +37,11 @@
    - Ran my first Flask server
  
 ## Pictures 🖼️
+
+- Blog Website (Day 57)
+
+  ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/d9941229-2537-4a8f-adc3-abffb2bd7d82)
+
 
 - Name Card project (Day 56)
   
