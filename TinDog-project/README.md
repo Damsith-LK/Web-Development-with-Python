@@ -1,4 +1,4 @@
-# TinDog Project
+# TinDog Project of Day 58
 
 HINT: To fiure out which Bootstrap components/snippets are used. Refer to the PDF below:
 https://github.com/appbrewery/tindog/blob/main/Bootstrap-snippets.pdf
