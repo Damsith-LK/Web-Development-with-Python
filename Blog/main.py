@@ -8,19 +8,21 @@ from datetime import datetime
 app = Flask(__name__)
 
 response = requests.get("https://api.npoint.io/079a621441e20cdc107d")
-content = response.json()
+blogs = response.json()
 year = datetime.now().year
 
 @app.route('/')
 def home():
-    return render_template("index.html", blogs=content, year=year)
+    return render_template("index.html", blogs=blogs, year=year)
 
-# @app.route("/post/<int:num>")
-# def post(num):
-#     title = blogs[num-1]["title"]
-#     body = blogs[num-1]["body"]
-#     subtitle = blogs[num-1]["subtitle"]
-#     return render_template("post.html", title=title, body=body, subtitle=subtitle)
+@app.route("/post/<int:num>")
+def post(num):
+    title = blogs[num-1]["title"]
+    body = blogs[num-1]["body"]
+    subtitle = blogs[num-1]["subtitle"]
+    date = blogs[num-1]["date"]
+    id = blogs[num-1]["id"]
+    return render_template("post.html", title=title, body=body, subtitle=subtitle, date=date, id=id)
 
 @app.route("/about")
 def about():
