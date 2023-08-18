@@ -1,27 +1,49 @@
+<!--Day 59 - Upgrading Blog of Day 57-->
+<!--Using Jinja %include% -->
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/styles.css">
-</head>
-<body>
-<div class="wrapper">
-    <div class="top">
-        <div class="title"><h1>My Blog</h1></div>
-    </div>
-    <div class="content">
-        {% for blog in blogs %}
-        <div class="card">
-            <h2>{{ blog["title"] }}</h2>
-            <p class="text">{{ blog["subtitle"] }}</p>
-            <a href="{{ url_for('post', num=blog['id']) }}">Read</a>
+    <!--Including the header-->
+    {%include "header.html" %}   
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('../static/assets/img/home-bg.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1>Damsith's Blog</h1>
+                            <span class="subheading">A "superior" upgraded blog</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Post preview-->
+                    {% for blog in blogs %}
+                    <div class="post-preview">
+                        <a href="{{ url_for('post', num=blog['id']) }}">
+                            <h2 class="post-title">{{ blog["title"]}}</h2>
+                            <h3 class="post-subtitle">{{ blog["subtitle"] }}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="https://github.com/Damsith-LK">Damsith</a>
+                            on {{ blog["date"] }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    <!-- Pager-->
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+                </div>
+            </div>
         </div>
-        {% endfor %}
-</div>
-</body>
-<footer>
-    <p>Made with ♥️ in Sri Lanka.</p>
-</footer>
+        <!-- Including the footer-->
+        {% include "footer.html" %}
+    </body>
 </html>

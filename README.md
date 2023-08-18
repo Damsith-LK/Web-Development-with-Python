@@ -1,5 +1,5 @@
 # Web Development with Python
-- A simple repo dedicated to keep track of my web development work with Flask, Bootstrap and etc 🚀.
+- A simple repo dedicated to keep track of my web development work with Flask, Jinja, Bootstrap and etc 🚀.
 - Continued from [this repo](https://github.com/Damsith-LK/Udemy-Projects-Python-2)
 
 
@@ -19,6 +19,9 @@
 
 
 ## Things I have learned and projects I have finished ✅
+
+- Day 59 ⚒️👨‍💻
+    - Upgraded the blog from Day 57 using what I've learned so far
 
 - Day 58 💻
     - Learnt about Bootstrap and practised using it
@@ -42,9 +45,14 @@
  
 ## Pictures 🖼️
 
+- Upgraded Blog Website (Day 59)
+
+  ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/5438b6f1-b31d-45c5-9f3b-ba85a7531ee8)
+
+
 - TinDog (Day 58)
 
- ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/927b6833-a86c-4797-949b-792cd201353f)
+  ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/927b6833-a86c-4797-949b-792cd201353f)
 
 
 - Blog Website (Day 57)
