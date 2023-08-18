@@ -2,15 +2,18 @@
 # Day 59 - Upgrading Blog
 
 from flask import Flask, render_template
-from post import Post
+import requests
+from datetime import datetime
 
 app = Flask(__name__)
-post = Post()
-blogs = post.get_blogs()
+
+response = requests.get("https://api.npoint.io/079a621441e20cdc107d")
+content = response.json()
+year = datetime.now().year
 
 @app.route('/')
 def home():
-    return render_template("index.html")
+    return render_template("index.html", blogs=content, year=year)
 
 # @app.route("/post/<int:num>")
 # def post(num):
