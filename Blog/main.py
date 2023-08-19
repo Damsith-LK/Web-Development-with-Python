@@ -23,16 +23,18 @@ def post(num):
     subtitle = blogs[num-1]["subtitle"]
     date = blogs[num-1]["date"]
     id = blogs[num-1]["id"]
-    return render_template("post.html", title=title, body=body, subtitle=subtitle, date=date, id=id)
+    return render_template("post.html", title=title, body=body, subtitle=subtitle, date=date, id=id, year=year)
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    return render_template("about.html", year=year)
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
+    # h1_message indicates what should be shown in the h1 of '/contact' page depending on method (get or post)
+    # I think this would be a better approach than adding 'if's in html file with Jinja
     if request.method == "GET":
-        return render_template("contact.html")
+        return render_template("contact.html", h1_message="Contact Me", year=year)
     else:
         name = request.form["name"]
         email = request.form["email"]
@@ -42,19 +44,7 @@ def contact():
         print(email)
         print(phone)
         print(message)
-        return "<h1>Successfully sent your message</h1>"
-
-# @app.route("/form-entry", methods=["POST"])
-# def form_entry():
-#     name = request.form["name"]
-#     email = request.form["email"]
-#     phone = request.form["phone"]
-#     message = request.form["message"]
-#     print(name)
-#     print(email)
-#     print(phone)
-#     print(message)
-#     return "<h1>Successfully sent your message</h1>"
+        return render_template("contact.html", h1_message="Successfully sent your message", year=year)
 
 
 if __name__ == "__main__":
