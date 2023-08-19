@@ -1,7 +1,8 @@
 # Day 57 - Blog Capstone project
 # Day 59 - Upgrading Blog
+# Day 60 - Getting the HTML forms to work
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
 from datetime import datetime
 
@@ -31,6 +32,18 @@ def about():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+@app.route("/form-entry", methods=["POST"])
+def form_entry():
+    name = request.form["name"]
+    email = request.form["email"]
+    phone = request.form["phone"]
+    message = request.form["message"]
+    print(name)
+    print(email)
+    print(phone)
+    print(message)
+    return "<h1>Successfully sent your message</h1>"
 
 
 if __name__ == "__main__":
