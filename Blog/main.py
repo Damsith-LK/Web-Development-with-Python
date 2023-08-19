@@ -29,21 +29,32 @@ def post(num):
 def about():
     return render_template("about.html")
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html")
+    if request.method == "GET":
+        return render_template("contact.html")
+    else:
+        name = request.form["name"]
+        email = request.form["email"]
+        phone = request.form["phone"]
+        message = request.form["message"]
+        print(name)
+        print(email)
+        print(phone)
+        print(message)
+        return "<h1>Successfully sent your message</h1>"
 
-@app.route("/form-entry", methods=["POST"])
-def form_entry():
-    name = request.form["name"]
-    email = request.form["email"]
-    phone = request.form["phone"]
-    message = request.form["message"]
-    print(name)
-    print(email)
-    print(phone)
-    print(message)
-    return "<h1>Successfully sent your message</h1>"
+# @app.route("/form-entry", methods=["POST"])
+# def form_entry():
+#     name = request.form["name"]
+#     email = request.form["email"]
+#     phone = request.form["phone"]
+#     message = request.form["message"]
+#     print(name)
+#     print(email)
+#     print(phone)
+#     print(message)
+#     return "<h1>Successfully sent your message</h1>"
 
 
 if __name__ == "__main__":
