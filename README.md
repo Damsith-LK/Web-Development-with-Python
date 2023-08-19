@@ -20,6 +20,10 @@
 
 ## Things I have learned and projects I have finished ✅
 
+- Day 60 👨‍💻
+     - Learned about HTML Forms and how to work them with Flask
+     - Got the HTML Form in Blog Website to work
+
 - Day 59 ⚒️👨‍💻
     - Upgraded the blog from Day 57 using what I've learned so far
 
@@ -44,6 +48,11 @@
    - Ran my first Flask server
  
 ## Pictures 🖼️
+
+- Working form of Blog Website (Day 60)
+
+   ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/95f8d4ae-1a48-4817-98d0-5fc881bf4a07)
+
 
 - Upgraded Blog Website (Day 59)
 
