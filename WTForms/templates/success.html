@@ -1,15 +1,23 @@
 <!--Day 61 - WTForms-->
+<!--Using base.html as base template-->
 
-<!DOCTYPE HTML>
-<html>
-<head>
-	<title>Success</title>
-</head>
-<body>
-	<div class="container">
-		<h1>Top Secret </h1>
-		<iframe src="https://giphy.com/embed/Ju7l5y9osyymQ" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-		<p><a href="https://giphy.com/gifs/rick-astley-Ju7l5y9osyymQ">via GIPHY</a></p>
-	</div>
-</body>
-</html>
+<!--1.-->
+{% extends "base.html" %}
+<!--2.-->
+{% block title %}Success{% endblock %}
+<!--3.-->>
+{% block content %}
+   <div class="container">
+      <h1>Top Secret </h1>
+      <iframe src="https://giphy.com/embed/Ju7l5y9osyymQ" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+      <p><a href="https://giphy.com/gifs/rick-astley-Ju7l5y9osyymQ">via GIPHY</a></p>
+   </div>
+{% endblock %}
+
+<!--
+#1. This line of code tells the templating engine (Jinja) to use "base.html" as the template for this page.
+
+#2. This block inserts a custom title into the header of the template.
+
+#3. This block provides the content of the website. The part that is going to vary between webpages.
+-->
