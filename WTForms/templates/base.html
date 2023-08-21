@@ -14,8 +14,11 @@
         }
     </style>
     {% endblock %}
+    {{ bootstrap.load_css() }}
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
     {% block content %}{% endblock %}
+    {{ bootstrap.load_css() }}
 </body>
 </html>

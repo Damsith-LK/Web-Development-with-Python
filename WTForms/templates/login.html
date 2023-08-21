@@ -5,6 +5,8 @@
 <html>
 	<head>
 		<title>Login</title>
+		{{ bootstrap.load_css() }}
+		<link rel="stylesheet" href="../static/style.css">
 	</head>
 	<body>
         <div class="container">
@@ -26,5 +28,6 @@
 			</p>
 			{{ form.submit }}
         </div>
+		{{ bootstrap.load_js() }}
 	</body>
 </html>

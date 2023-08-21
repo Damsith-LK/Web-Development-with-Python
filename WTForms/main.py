@@ -1,11 +1,14 @@
 # Day 61 - Learning about WTForms
+# There is a lib called Bootstrap-Flask which makes coding these even easier
 
 from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, NoneOf
+from flask_bootstrap import Bootstrap5
 
 app = Flask(__name__)
+bootstrap = Bootstrap5(app)
 app.secret_key = "wakeuptoreality"
 
 class LoginForm(FlaskForm):

@@ -1,9 +1,12 @@
 <!--Day 61 - WTForms-->
+<!--There is a lib called Bootstrap-Flask which makes coding these even easier-->
 
 <!DOCTYPE html>
 <html>
   <head>
     <title>Secrets</title>
+    {{ bootstrap.load_css() }}
+    <link rel="stylesheet" href="../static/style.css">
   </head>
   <body>
     <div class="jumbotron">
@@ -15,5 +18,6 @@
         >
       </div>
     </div>
+    {{ bootstrap.load_js() }}
   </body>
 </html>
