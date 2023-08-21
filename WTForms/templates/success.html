@@ -1,5 +1,6 @@
 <!--Day 61 - WTForms-->
 <!--Using base.html as base template-->
+<!--We can use super() to add more to an inherited template-->
 
 <!--1.-->
 {% extends "base.html" %}
@@ -12,6 +13,15 @@
       <iframe src="https://giphy.com/embed/Ju7l5y9osyymQ" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
       <p><a href="https://giphy.com/gifs/rick-astley-Ju7l5y9osyymQ">via GIPHY</a></p>
    </div>
+{% endblock %}
+
+{% block styling %}
+   {{ super() }}
+   <style>
+      h1{
+         color: green;
+      }
+   </style>
 {% endblock %}
 
 <!--
