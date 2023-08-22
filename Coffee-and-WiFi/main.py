@@ -1,15 +1,16 @@
 # Day 62 - Cafe & Wi-Fi project
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, URLField, TimeField, SelectField
 from wtforms.validators import DataRequired, URL, NoneOf
+from datetime import datetime
 import csv
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
-Bootstrap5(app)
+bootstrap = Bootstrap5(app)
 
 
 class CafeForm(FlaskForm):
@@ -44,7 +45,15 @@ def home():
 def add_cafe():
     form = CafeForm()
     if form.validate_on_submit():
-        print("True")
+        with open('cafe-data.csv', 'a', encoding="utf-8", newline='') as csv_file:
+            writer = csv.writer(csv_file)
+            # Formatting the times
+            open_time = form.open_time.data.strftime("%I:%M%p")
+            close_time = form.closing_time.data.strftime("%I:%M%p")
+            lst = [form.cafe.data, form.loc_url.data, open_time, close_time, form.coffee_rating.data, form.wifi_rating.data, form.power_rating.data]
+            writer.writerow(lst)
+            # Redirecting to cafes page after submitting
+            return redirect(url_for("cafes"))
     return render_template('add.html', form=form)
 
 
