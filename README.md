@@ -20,6 +20,9 @@
 
 ## Things I have learned and projects I have finished ✅
 
+- Day 62 👨‍💻☕
+     - Created a website (Coffee & WiFi Project)
+
 - Day 61 📖
      - Learned about WTForms, inheriting templates with Jinja and how to use Bootstrap-Flask
 
@@ -51,6 +54,13 @@
    - Ran my first Flask server
  
 ## Pictures 🖼️
+
+- Coffee & WiFi (Day 62)
+  
+   ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/3317a08a-d20d-4b40-b4c6-eb9c884c8b21)
+   ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/e23cc35b-84de-4d3a-98ca-f7edaaef052a)
+
+
 
 - Working form of Blog Website (Day 60)
 
