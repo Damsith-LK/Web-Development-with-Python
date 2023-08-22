@@ -1,33 +1,22 @@
 <!--Day 61 - WTForms-->
+<!--With Bootstrap-Flask it is super easy to create a decent WTForm (Many lines of code can be reduced. Big time saver)-->
 
 <!DOCTYPE HTML>
 
-<html>
-	<head>
-		<title>Login</title>
-		{{ bootstrap.load_css() }}
-		<link rel="stylesheet" href="../static/style.css">
-	</head>
-	<body>
-        <div class="container">
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block title %}
+	Login
+{% endblock %}
+
+{% block styling %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<div class="container">
 		<h1>Login</h1>
-        <form method="post" action="{{ url_for('login' )}}" novalidate>
-			{{ form.csrf_token }}
-			<p>
-				{{ form.email.label }} <br> {{ form.email(size=30) }}
-				<!--We can tap into errors if there are errors-->
-				{% for err in form.email.errors %}
-				<span style="color: red;">{{ err }}</span>
-				{% endfor %}
-			</p>
-			<p>
-				{{ form.password.label }} <br> {{ form.password(size=30)}}
-				{% for err in form.password.errors %}
-				<span style="color: red;">{{ err }}</span>
-				{% endfor %}
-			</p>
-			{{ form.submit }}
-        </div>
-		{{ bootstrap.load_js() }}
-	</body>
-</html>
+		<!--WTForm in one liner. Pass the WTForm object-->
+		{{ render_form(form) }}
+	</div>
+{% endblock %}
