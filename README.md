@@ -20,6 +20,9 @@
 
 ## Things I have learned and projects I have finished ✅
 
+- Day 61 📖
+     - Learned about WTForms, inheriting templates with Jinja and how to use Bootstrap-Flask
+
 - Day 60 👨‍💻
      - Learned about HTML Forms and how to work them with Flask
      - Got the HTML Form in Blog Website to work
