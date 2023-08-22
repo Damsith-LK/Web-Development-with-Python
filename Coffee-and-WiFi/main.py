@@ -3,8 +3,8 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, URL
+from wtforms import StringField, SubmitField, URLField, TimeField, SelectField
+from wtforms.validators import DataRequired, URL, NoneOf
 import csv
 
 app = Flask(__name__)
@@ -14,7 +14,15 @@ Bootstrap5(app)
 
 class CafeForm(FlaskForm):
     cafe = StringField('Cafe name', validators=[DataRequired()])
-    loc_url = StringField('Location URL', validators=[DataRequired(), URL()])
+    loc_url = URLField('Location URL', validators=[DataRequired(), URL(), NoneOf(values="goo.gl")])
+    open_time = TimeField('Opening Time')  # Time fields doesn't allow inputs that are not time values so validators are unnecessary here
+    closing_time = TimeField('Closing Time')
+    coffee_rating = SelectField('Coffee Rating',
+                                choices=['☕', '☕☕', '☕☕☕', '☕☕☕☕', '☕☕☕☕☕'], validators=[DataRequired()])
+    wifi_rating = SelectField('Wi-Fi Strength Rating',
+                              choices=['✘', '💪', '💪💪', '💪💪💪', '💪💪💪💪', '💪💪💪💪💪'], validators=[DataRequired()])
+    power_rating = SelectField('Power Socket Availability',
+                               choices=['✘', '🔌', '🔌🔌', '🔌🔌🔌', '🔌🔌🔌🔌', '🔌🔌🔌🔌🔌'], validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 # Exercise:
@@ -32,14 +40,11 @@ def home():
     return render_template("index.html")
 
 
-@app.route('/add')
+@app.route('/add', methods=["POST", "GET"])
 def add_cafe():
     form = CafeForm()
     if form.validate_on_submit():
         print("True")
-    # Exercise:
-    # Make the form write a new row into cafe-data.csv
-    # with   if form.validate_on_submit()
     return render_template('add.html', form=form)
 
 
