@@ -1,4 +1,12 @@
 # Day 63 - Building a virtual library and also learn about some SQL things
+# This is a super simple project made to practise CRUD with SQLAlchemy
+"""
+Features of this Virtual Library:
+    1. Show books that are already in the library (Read)
+    2. Add more books to the library (Create)
+    3. Edit the rating of each book in the library (Update)
+    4. Delete books and their related stuff from library (Delete)
+"""
 
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -60,6 +68,18 @@ def edit():
             to_update_book.rating = update_book_rating
             db.session.commit()
             return redirect(url_for("home"))
+
+
+@app.route("/delete", methods=["POST", "GET"])
+def delete():
+    book_id = request.args.get("id")
+    if book_id is not None:
+        with app.app_context():
+            del_book = db.get_or_404(Books, book_id)
+            db.session.delete(del_book)
+            db.session.commit()
+    return redirect(url_for("home"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
