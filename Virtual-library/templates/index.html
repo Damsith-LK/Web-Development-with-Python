@@ -8,12 +8,12 @@
   </head>
   <body>
     <h1>My Library</h1>
-    {% if book_len == 0 %}  <!--If no books-->
+    {% if books == [] %}  <!--If no books-->
       <p>Library is empty.</p>
     {% else %}
       <ul>
-        {% for item in books %}
-        <li>{{ item['title'] }} - {{ item['author'] }} - {{ item['rating'] }}/10</li>
+        {% for book in books %}
+        <li>{{ book.title }} - {{ book.author }} - {{ book.rating }}/10</li>
         {% endfor %}
       </ul>
     {% endif %}
