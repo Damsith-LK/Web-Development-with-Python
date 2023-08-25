@@ -20,6 +20,10 @@
 
 ## Things I have learned and projects I have finished ✅
 
+- Day 63 📖👨‍💻
+     - Learned about SQLite, SQLAlchemy and how to do CRUD operations with them
+     - Created a super simple website called Virtual Library to practise my skills
+
 - Day 62 👨‍💻☕
      - Created a website (Coffee & WiFi Project)
 
@@ -55,11 +59,15 @@
  
 ## Pictures 🖼️
 
+- Virtual Library (Day 63)
+  
+   ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/54577d62-3b09-4331-961a-d6190812608a)
+
+
 - Coffee & WiFi (Day 62)
   
    ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/3317a08a-d20d-4b40-b4c6-eb9c884c8b21)
    ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/e23cc35b-84de-4d3a-98ca-f7edaaef052a)
-
 
 
 - Working form of Blog Website (Day 60)
