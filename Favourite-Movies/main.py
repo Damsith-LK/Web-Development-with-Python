@@ -3,7 +3,7 @@
 Requirements of this website
     1. Be Able to View Movie List Items - Done
     2. Be Able to Edit a Movie's Rating and Review - Done
-    3. Be Able to Delete Movies from the Database
+    3. Be Able to Delete Movies from the Database - Done
     4. Be Able to Add New Movies Via the Add Page
     5. Be Able to Sort and Rank the Movies By Rating
 """
@@ -67,6 +67,16 @@ def edit():
                 db.session.commit()
             return redirect(url_for('home'))
         return render_template("edit.html", form=edit_form)
+    return redirect(url_for('home'))
+
+
+@app.route("/delete", methods=["POST", "GET"])
+def delete():
+    movie_id = request.args["id"]
+    if movie_id is not None:
+        to_del_movie = db.get_or_404(Movie, movie_id)
+        db.session.delete(to_del_movie)
+        db.session.commit()
     return redirect(url_for('home'))
 
 
