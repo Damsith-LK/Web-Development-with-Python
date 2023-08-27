@@ -20,6 +20,9 @@
 
 ## Things I have learned and projects I have finished ✅
 
+- Day 64 💻
+     - Created **My Top 10 Movies Website**
+
 - Day 63 📖👨‍💻
      - Learned about SQLite, SQLAlchemy and how to do CRUD operations with them
      - Created a super simple website called Virtual Library to practise my skills
@@ -58,6 +61,11 @@
    - Ran my first Flask server
  
 ## Pictures 🖼️
+
+- My Top 10 Movies Website (Day 64)
+
+    ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/f4736214-0b82-45d9-aaf3-f173a0a23e40)
+
 
 - Virtual Library (Day 63)
   
