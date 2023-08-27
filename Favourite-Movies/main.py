@@ -5,7 +5,7 @@ Requirements of this website
     2. Be Able to Edit a Movie's Rating and Review - Done
     3. Be Able to Delete Movies from the Database - Done
     4. Be Able to Add New Movies Via the Add Page - Done
-    5. Be Able to Sort and Rank the Movies By Rating
+    5. Be Able to Sort and Rank the Movies By Rating - Done
 """
 # Don't confuse 'requests' for API get and 'request' in flask
 
@@ -55,7 +55,7 @@ class AddMovieForm(FlaskForm):
 
 
 def get_movies(title) -> list:
-    """This function is for getting the relevant information about movies according to the given input from TMDB API.
+    """This function is for getting the relevant information about movies according to the given input. Data is from TMDB API.
     Use this inside add() function"""
     api_url = "https://api.themoviedb.org/3/search/movie"
     params = {"query": title}
@@ -64,7 +64,8 @@ def get_movies(title) -> list:
 
 def get_movie_info(movie_id) -> list:
     """Gets the information about the movie corresponding to the given id.
-    The list outputs = [title, img_url, year, description]"""
+    The list outputs = [title, img_url, year, description].
+    Use this inside select() function"""
     api_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
     response = requests.get(api_url, headers=tmdb_headers).json()
     title = response["title"]
@@ -76,8 +77,16 @@ def get_movie_info(movie_id) -> list:
 
 @app.route("/")
 def home():
+    """In the home page, it shows movies in order according to the ranking.
+    Rankings are counted according to the ratings of the movies"""
     with app.app_context():
-        all_movies = db.session.execute(db.select(Movie).order_by(Movie.title)).scalars().all()
+        # Read DB in the ascending order of ratings
+        all_movies = db.session.query(Movie).order_by(Movie.rating.asc()).all()
+        # Edit ranking according to the ratings of the movies
+        for i, movie in enumerate(all_movies[::-1]):
+            with app.app_context():
+                movie.ranking = i + 1
+                db.session.commit()
     return render_template("index.html", movies=all_movies)
 
 
@@ -123,7 +132,7 @@ def add():
 
 @app.route("/select", methods=["POST", "GET"])
 def select():
-    """This func gets the information of the movie, user selected in /add and creates a new entry in DB. The information is requested form TMDB"""
+    """This func gets the information of the movie, user selected in /add and creates a new entry in DB. The information is requested from TMDB"""
     movie_id = request.args["id"]
     title, img_url, year, description = get_movie_info(movie_id)
     # Instance of Movie
