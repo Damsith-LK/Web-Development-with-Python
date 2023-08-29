@@ -20,6 +20,9 @@
 
 ## Things I have learned and projects I have finished ✅
 
+- Day 65 📖
+     - Learned about Web Designing
+
 - Day 64 💻
      - Created **My Top 10 Movies Website**
 
