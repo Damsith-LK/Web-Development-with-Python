@@ -1,4 +1,5 @@
 # Day 66 - Learning about RESTful APIs and building my own REST API
+# Postman is a great API testing tool
 """
 There are two requirements for an API to be RESTful:
     1. Use HTTP verbs eg-GET
@@ -8,6 +9,7 @@ There are two requirements for an API to be RESTful:
 Challenge 1 - create a /random route that serves up a random cafe. - Done
 Challenge 2 - create a /all route that serves up all the cafes. - Done
 Challenge 3 - create a /search route to search for cafes at a particular location. - Done
+Challenge 4 - create a /add route to add a new cafe into the DB. - Done
 """
 
 from flask import Flask, jsonify, render_template, request, url_for, redirect
@@ -104,6 +106,41 @@ def search():
             error={
                 "Not Found": "Sorry, we don't have a cafe at that location."
             }
+        )
+
+
+@app.route("/add", methods=["POST", "GET"])
+def add():
+    """Add new cafe to DB"""
+    name = request.args["name"]
+    loc = request.args["loc"]
+    map_url = request.args["map_url"]
+    img_url = request.args["img_url"]
+    seats = request.args["seats"]
+    has_toilet = request.args["has_toilet"]
+    has_wifi = request.args["has_wifi"]
+    has_sockets = request.args["has_sockets"]
+    can_take_calls = request.args["can_take_calls"]
+    coffee_price = request.args["coffee_price"]
+    if loc and map_url and name and img_url and seats and has_sockets and has_wifi and has_toilet and coffee_price and can_take_calls:
+        new_cafe = Cafe(
+            name=name,
+            location=loc,
+            map_url=map_url,
+            img_url=img_url,
+            seats=seats,
+            has_toilet=eval(has_toilet),
+            has_wifi=eval(has_wifi),
+            has_sockets=eval(has_sockets),
+            can_take_calls=eval(can_take_calls),
+            coffee_price=coffee_price
+        )
+        # eval() converts string to bool
+        with app.app_context():
+            db.session.add(new_cafe)
+            db.session.commit()
+        return jsonify(
+            response={"Success": "Successfully added the new cafe"}
         )
 
 
