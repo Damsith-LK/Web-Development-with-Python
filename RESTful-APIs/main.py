@@ -6,6 +6,7 @@ There are two requirements for an API to be RESTful:
 """
 """
 Challenge 1 - create a /random route that serves up a random cafe.
+Challenge 2 - create a /all route that serves up all the cafes.
 """
 
 from flask import Flask, jsonify, render_template, request, url_for, redirect
@@ -45,6 +46,7 @@ def home():
 
 @app.route("/random")
 def random():
+    """"Fetches a random cafe"""
     cafes = db.session.execute(db.select(Cafe)).scalars().all()
     rand_cafe = rand_lib.choice(cafes)
     # Serialization - Turning into JSON
@@ -64,14 +66,29 @@ def random():
         }
     )
 
-
-## HTTP GET - Read Record
-
-## HTTP POST - Create Record
-
-## HTTP PUT/PATCH - Update Record
-
-## HTTP DELETE - Delete Record
+@app.route("/all")
+def all():
+    """All the cafes in the DB"""
+    cafes = db.session.execute(db.select(Cafe)).scalars().all()
+    # Creating a list of dictionaries containing details about each cafe
+    all_cafes = []
+    # Iterating over each row in DB
+    for cafe in cafes:
+        cafe_dict = {
+            "id": cafe.id,
+            "name": cafe.name,
+            "map_url": cafe.map_url,
+            "img_url": cafe.img_url,
+            "location": cafe.location,
+            "seats": cafe.seats,
+            "has_toilet": cafe.has_toilet,
+            "has_wifi": cafe.has_wifi,
+            "has_sockets": cafe.has_sockets,
+            "can_take_calls": cafe.can_take_calls,
+            "coffee_price": cafe.coffee_price
+        }
+        all_cafes.append(cafe_dict)
+    return jsonify(cafes=all_cafes)
 
 
 if __name__ == '__main__':
