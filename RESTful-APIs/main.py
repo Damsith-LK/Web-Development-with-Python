@@ -4,12 +4,17 @@
 There are two requirements for an API to be RESTful:
     1. Use HTTP verbs eg-GET
     2. Use specific patterns of routes/endpoint URLs
+
+PUT vs PATCH -
+    PUT is a method of modifying resource where the client sends data that updates the entire resource.
+    PATCH is a method of modifying resources where the client sends partial data that is to be updated without modifying the entire data
 """
 """
 Challenge 1 - create a /random route that serves up a random cafe. - Done
 Challenge 2 - create a /all route that serves up all the cafes. - Done
 Challenge 3 - create a /search route to search for cafes at a particular location. - Done
 Challenge 4 - create a /add route to add a new cafe into the DB. - Done
+Challenge 5 - create a PATCH request route in main.py to handle PATCH requests to our API. - Done
 """
 
 from flask import Flask, jsonify, render_template, request, url_for, redirect
@@ -142,6 +147,18 @@ def add():
         return jsonify(
             response={"Success": "Successfully added the new cafe"}
         )
+
+@app.route("/update-price/<int:id>", methods=["PATCH"])
+def update_price(id):
+    """Modify price of a coffee in a specific cafe"""
+    cafe = db.session.execute(db.select(Cafe).where(Cafe.id == id)).scalar()
+    # Checking if the given id is available
+    if cafe is None:
+        return jsonify(response={"Error": "Sorry, a cafe with that id was not found in the database"}), 404
+    new_price = request.args["new_price"]
+    cafe.coffee_price = new_price
+    db.session.commit()
+    return jsonify(response={"Success": "Successfully updated the price"}), 200  # The return HTTP code can be defined like this
 
 
 if __name__ == '__main__':
