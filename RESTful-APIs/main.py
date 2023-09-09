@@ -15,6 +15,7 @@ Challenge 2 - create a /all route that serves up all the cafes. - Done
 Challenge 3 - create a /search route to search for cafes at a particular location. - Done
 Challenge 4 - create a /add route to add a new cafe into the DB. - Done
 Challenge 5 - create a PATCH request route in main.py to handle PATCH requests to our API. - Done
+Challenge 6 - create a DELETE request route in main.py to delete entries (Requires api_key to do so) - Done
 """
 
 from flask import Flask, jsonify, render_template, request, url_for, redirect
@@ -22,6 +23,7 @@ from flask_sqlalchemy import SQLAlchemy
 import random as rand_lib
 
 app = Flask(__name__)
+API_KEY = "TopSecretAPIkey"
 
 # Connect to Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
@@ -159,6 +161,21 @@ def update_price(id):
     cafe.coffee_price = new_price
     db.session.commit()
     return jsonify(response={"Success": "Successfully updated the price"}), 200  # The return HTTP code can be defined like this
+
+
+@app.route("/report-closed/<int:id>", methods=["DELETE"])
+def report_closed(id):
+    """Delete cafe entries from the DB"""
+    cafe = db.session.execute(db.select(Cafe).where(Cafe.id == id)).scalar()
+    # Checking if the given id is available
+    if cafe is None:
+        return jsonify(response={"Error": "Sorry, a cafe with that id was not found in the database"}), 404
+    api_key = request.args["api_key"]
+    if api_key != API_KEY:
+        return jsonify(reponse={"Forbidden": "Sorry, that's not allowed. Enter the valid api_key."}), 403  # Forbidden
+    db.session.delete(cafe)
+    db.session.commit()
+    return jsonify(reponse={"Success": "Successfully deleted the cafe"})
 
 
 if __name__ == '__main__':
