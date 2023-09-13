@@ -3,13 +3,14 @@ from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, URL
+from wtforms.validators import DataRequired, URL, Length
 from flask_ckeditor import CKEditor, CKEditorField
 from datetime import date
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
-Bootstrap5(app)
+bootstrap = Bootstrap5(app)
+ckeditor = CKEditor(app)
 
 # CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
@@ -27,6 +28,16 @@ class BlogPost(db.Model):
     author = db.Column(db.String(250), nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
 
+# CONFIGURE WTFORM
+class NewPostForm(FlaskForm):
+    """Form for creating new blog posts.
+    Use in add_new_post()"""
+    title = StringField(label="Blog Post Title", validators=[DataRequired(), Length(max=60)])
+    subtitle = StringField(label="Subtitle", validators=[DataRequired()])
+    name = StringField(label="Your Name", validators=[DataRequired()])
+    img_url = StringField(label="Blog Image URL", validators=[DataRequired(), URL()])
+    content = CKEditorField(label="Blog Content", validators=[DataRequired()])
+    submit = SubmitField(label="SUBMIT POST", render_kw={'style': 'margin: 15px;'})
 
 with app.app_context():
     db.create_all()
@@ -47,6 +58,10 @@ def show_post(post_id):
 
 
 # TODO: add_new_post() to create a new blog post
+@app.route("/new-post")
+def add_new_post():
+    new_blog_post_form = NewPostForm()
+    return render_template("make-post.html", form=new_blog_post_form)
 
 # TODO: edit_post() to change an existing blog post
 
