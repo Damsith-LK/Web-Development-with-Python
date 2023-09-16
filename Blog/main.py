@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
@@ -58,9 +60,28 @@ def show_post(post_id):
 
 
 # TODO: add_new_post() to create a new blog post
-@app.route("/new-post")
+@app.route("/new-post", methods=["POST", "GET"])
 def add_new_post():
     new_blog_post_form = NewPostForm()
+    if new_blog_post_form.validate_on_submit():
+        title = new_blog_post_form.title.data
+        subtitle = new_blog_post_form.subtitle.data
+        name = new_blog_post_form.name.data
+        img_url = new_blog_post_form.img_url.data
+        content = new_blog_post_form.content.data
+        date = datetime.datetime.now().strftime('%B %d, %Y')
+        # Creating new entry in DB
+        new_post = BlogPost(
+            title=title,
+            subtitle=subtitle,
+            author=name,
+            img_url=img_url,
+            body=content,
+            date=date
+        )
+        db.session.add(new_post)
+        db.session.commit()
+        return redirect(url_for('get_all_posts'))
     return render_template("make-post.html", form=new_blog_post_form)
 
 # TODO: edit_post() to change an existing blog post
