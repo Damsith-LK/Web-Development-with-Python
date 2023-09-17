@@ -1,5 +1,4 @@
 import datetime
-
 from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
@@ -7,7 +6,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, URL, Length
 from flask_ckeditor import CKEditor, CKEditorField
-from datetime import date
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -33,7 +31,7 @@ class BlogPost(db.Model):
 # CONFIGURE WTFORM
 class NewPostForm(FlaskForm):
     """Form for creating new blog posts.
-    Use in add_new_post()"""
+    Use in add_new_post() and edit_post()"""
     title = StringField(label="Blog Post Title", validators=[DataRequired(), Length(max=60)])
     subtitle = StringField(label="Subtitle", validators=[DataRequired()])
     name = StringField(label="Your Name", validators=[DataRequired()])
@@ -87,7 +85,15 @@ def add_new_post():
 # TODO: edit_post() to change an existing blog post
 @app.route("/edit-post/<int:post_id>")
 def edit_post(post_id):
-    return render_template('make-post.html', is_edit=True)
+    edit_post = db.get_or_404(BlogPost, post_id)
+    edit_blog_post_form = NewPostForm(
+        title=edit_post.title,
+        subtitle=edit_post.subtitle,
+        name=edit_post.author,
+        img_url=edit_post.img_url,
+        content=edit_post.body,
+    )
+    return render_template('make-post.html', is_edit=True, form=edit_blog_post_form)
 
 # TODO: delete_post() to remove a blog post from the database
 
