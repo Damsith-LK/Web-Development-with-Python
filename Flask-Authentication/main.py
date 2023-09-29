@@ -68,8 +68,11 @@ def logout():
 
 @app.route('/download')
 def download():
-    pass
-
+    """Download the cheat sheet to user's device"""
+    return send_from_directory(
+        directory="static/files",
+        path="cheat_sheet.pdf"
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
