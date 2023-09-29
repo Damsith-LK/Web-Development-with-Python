@@ -20,6 +20,12 @@
 
 ## Things I have learned and projects I have finished ✅
 
+- Day 67 👨‍💻
+     - Upgrade Blog site to have RESTful routing
+
+- Day 66 💻
+     - Learned about RESTful APIs and made one
+  
 - Day 65 📖
      - Learned about Web Designing
 
@@ -64,6 +70,11 @@
    - Ran my first Flask server
  
 ## Pictures 🖼️
+
+- Upgraded blog with RESTful routing (Day 67)
+
+    ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/212bcacf-0d3a-4072-beff-f9fb3db38154)
+
 
 - My Top 10 Movies Website (Day 64)
 

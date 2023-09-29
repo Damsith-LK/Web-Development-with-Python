@@ -1,67 +1,126 @@
-# Day 57 - Blog Capstone project
-# Day 59 - Upgrading Blog
-# Day 60 - Getting the HTML forms to work and send email to myself as a form has been correctly filled
-
-from flask import Flask, render_template, request
-import requests
-import smtplib
-from datetime import datetime
-import config
+import datetime
+from flask import Flask, render_template, redirect, url_for
+from flask_bootstrap import Bootstrap5
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired, URL, Length
+from flask_ckeditor import CKEditor, CKEditorField
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+bootstrap = Bootstrap5(app)
+ckeditor = CKEditor(app)
 
-response = requests.get("https://api.npoint.io/079a621441e20cdc107d")
-blogs = response.json()
-year = datetime.now().year
+# CONNECT TO DB
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+db = SQLAlchemy()
+db.init_app(app)
 
-def send_email(name, email, phone_number, msg):
-    """Sends emails"""
-    email_msg = "Subject:New Form Response\n\n" \
-                f"Name: {name}\n" \
-              f"Email: {email}\n" \
-              f"Phone Number: {phone_number}\n" \
-              f"Message: {msg}\n"
-    with smtplib.SMTP("smtp.gmail.com") as conn:
-        conn.starttls()
-        conn.login(user=config.my_email, password=config.my_password)
-        conn.sendmail(
-            from_addr=config.my_email,
-            to_addrs=config.send_email,
-            msg=email_msg
-        )
+
+# CONFIGURE TABLE
+class BlogPost(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(250), unique=True, nullable=False)
+    subtitle = db.Column(db.String(250), nullable=False)
+    date = db.Column(db.String(250), nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    author = db.Column(db.String(250), nullable=False)
+    img_url = db.Column(db.String(250), nullable=False)
+
+# CONFIGURE WTFORM
+class NewPostForm(FlaskForm):
+    """Form for creating new blog posts.
+    Use in add_new_post() and edit_post()"""
+    title = StringField(label="Blog Post Title", validators=[DataRequired(), Length(max=60)])
+    subtitle = StringField(label="Subtitle", validators=[DataRequired()])
+    author = StringField(label="Your Name", validators=[DataRequired()])
+    img_url = StringField(label="Blog Image URL", validators=[DataRequired(), URL()])
+    body = CKEditorField(label="Blog Content", validators=[DataRequired()])
+    submit = SubmitField(label="SUBMIT POST", render_kw={'style': 'margin: 15px;'})
+
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/')
-def home():
-    return render_template("index.html", blogs=blogs, year=year)
+def get_all_posts():
+    # Query the database for all the posts. Convert the data to a python list
+    posts = db.session.execute(db.select(BlogPost).order_by(BlogPost.id)).scalars().all()
+    return render_template("index.html", all_posts=posts)
 
-@app.route("/post/<int:num>")
-def post(num):
-    title = blogs[num-1]["title"]
-    body = blogs[num-1]["body"]
-    subtitle = blogs[num-1]["subtitle"]
-    date = blogs[num-1]["date"]
-    id = blogs[num-1]["id"]
-    return render_template("post.html", title=title, body=body, subtitle=subtitle, date=date, id=id, year=year)
+# Add a route so that you can click on individual posts
+@app.route('/post/<int:post_id>')
+def show_post(post_id):
+    # Retrieve a BlogPost from the database based on the post_id
+    requested_post = db.get_or_404(BlogPost, post_id)
+    return render_template("post.html", post=requested_post)
 
+
+# add_new_post() to create a new blog post
+@app.route("/new-post", methods=["POST", "GET"])
+def add_new_post():
+    new_blog_post_form = NewPostForm()
+    if new_blog_post_form.validate_on_submit():
+        title = new_blog_post_form.title.data
+        subtitle = new_blog_post_form.subtitle.data
+        author = new_blog_post_form.author.data
+        img_url = new_blog_post_form.img_url.data
+        body = new_blog_post_form.body.data
+        date = datetime.datetime.now().strftime('%B %d, %Y')
+        # Creating new entry in DB
+        new_post = BlogPost(
+            title=title,
+            subtitle=subtitle,
+            author=author,
+            img_url=img_url,
+            body=body,
+            date=date
+        )
+        db.session.add(new_post)
+        db.session.commit()
+        return redirect(url_for('get_all_posts'))
+    return render_template("make-post.html", form=new_blog_post_form, is_edit=False)
+
+# edit_post() to change an existing blog post
+@app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
+def edit_post(post_id):
+    edit_post = db.get_or_404(BlogPost, post_id)
+    edit_blog_post_form = NewPostForm(
+        title=edit_post.title,
+        subtitle=edit_post.subtitle,
+        author=edit_post.author,
+        img_url=edit_post.img_url,
+        body=edit_post.body,
+    )
+    if edit_blog_post_form.validate_on_submit():
+        edit_post.title = edit_blog_post_form.title.data
+        edit_post.subtitle = edit_blog_post_form.subtitle.data
+        edit_post.author = edit_blog_post_form.author.data
+        edit_post.img_url = edit_blog_post_form.img_url.data
+        edit_post.body = edit_blog_post_form.body.data
+        db.session.commit()
+        return redirect(f"/post/{post_id}")
+    return render_template('make-post.html', is_edit=True, form=edit_blog_post_form)
+
+# delete_post() to remove a blog post from the database
+@app.route('/delete-post/<int:post_id>')
+def delete_post(post_id):
+    del_post = db.get_or_404(BlogPost, post_id)
+    db.session.delete(del_post)
+    db.session.commit()
+    return redirect(url_for('get_all_posts'))
+
+# Below is the code from previous lessons. No changes needed.
 @app.route("/about")
 def about():
-    return render_template("about.html", year=year)
+    return render_template("about.html")
 
-@app.route("/contact", methods=["GET", "POST"])
+
+@app.route("/contact")
 def contact():
-    # h1_message indicates what should be shown in the h1 of '/contact' page depending on method (get or post)
-    # I think this would be a better approach than adding 'if's in html file with Jinja
-    if request.method == "GET":
-        return render_template("contact.html", h1_message="Contact Me", year=year)
-    else:
-        name = request.form["name"]
-        email = request.form["email"]
-        phone = request.form["phone"]
-        message = request.form["message"]
-        send_email(name=name, email=email, phone_number=phone, msg=message)
-        return render_template("contact.html", h1_message="Successfully sent your message", year=year)
+    return render_template("contact.html")
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5003)
