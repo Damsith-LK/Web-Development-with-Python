@@ -46,7 +46,7 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for("secrets"))
+        return redirect(url_for("secrets", name=name))
     return render_template("register.html")
 
 
@@ -57,7 +57,8 @@ def login():
 
 @app.route('/secrets')
 def secrets():
-    return render_template("secrets.html")
+    name = request.args.get("name")
+    return render_template("secrets.html", name=name)
 
 
 @app.route('/logout')
