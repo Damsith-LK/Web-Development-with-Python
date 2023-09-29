@@ -38,6 +38,8 @@ def register():
         name = request.form["name"]
         email = request.form["email"]
         password = request.form["password"]
+        # Hashing and salting the password. This makes it super secure
+        password = generate_password_hash(password=password, method="pbkdf2:sha256", salt_length=8)
         # Creating a new entry in DB
         new_user = User(
             email=email,
