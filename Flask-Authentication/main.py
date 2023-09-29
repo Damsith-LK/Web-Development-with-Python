@@ -31,8 +31,22 @@ def home():
     return render_template("index.html")
 
 
-@app.route('/register')
+@app.route('/register', methods=["GET", "POST"])
 def register():
+    """Register new users to website"""
+    if request.method == "POST":
+        name = request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
+        # Creating a new entry in DB
+        new_user = User(
+            email=email,
+            password=password,
+            name=name
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for("secrets"))
     return render_template("register.html")
 
 
