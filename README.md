@@ -20,6 +20,9 @@
 
 ## Things I have learned and projects I have finished ✅
 
+- Day 68 🔒
+     - Learn Flask Authentication and build a application using that knowledge
+
 - Day 67 👨‍💻
      - Upgrade Blog site to have RESTful routing
 
@@ -70,6 +73,11 @@
    - Ran my first Flask server
  
 ## Pictures 🖼️
+
+- Flask Authentication (Day 68)
+
+    ![image](https://github.com/Damsith-LK/Web-Development-with-Python/assets/113516635/9c8fdf33-411c-49f8-aefd-fd0d72847f86)
+
 
 - Upgraded blog with RESTful routing (Day 67)
 
