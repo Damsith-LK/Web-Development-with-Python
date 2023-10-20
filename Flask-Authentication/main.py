@@ -36,8 +36,13 @@ def register():
     """Register new users to website"""
     if request.method == "POST":
         name = request.form["name"]
-        email = request.form["email"]
+        email = request.form["email"].lower()
         password = request.form["password"]
+        # Check if inputted email already exist in DB. If so, redirect user to login page
+        check_email = db.session.execute(db.select(User).where(User.email == email)).scalar()
+        if check_email:
+            flash("You have already signed up with that email. Log in instead.")
+            return redirect(url_for("login"))
         # Hashing and salting the password. This makes it super secure
         password = generate_password_hash(password=password, method="pbkdf2:sha256", salt_length=8)
         # Creating a new entry in DB
@@ -52,8 +57,22 @@ def register():
     return render_template("register.html")
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    """Logs the users. Uses Flask flash"""
+    if request.method == "POST":
+        email = request.form["email"].lower()
+        password = request.form["password"]
+        # Check whether the given email exist in the DB or not
+        check_email = db.session.execute(db.select(User).where(User.email == email)).scalar()
+        if not check_email:
+            flash("This email does not exist. Please try again.", "error")
+        else:
+            # Check if the given password is correct. (Compare password hash and the inputted password)
+            check_password = check_password_hash(check_email.password, password)
+            if not check_password:
+                flash("Password incorrect. Please try again.", "error")
+
     return render_template("login.html")
 
 
