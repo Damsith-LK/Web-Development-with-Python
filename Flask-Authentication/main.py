@@ -3,7 +3,7 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret-key-goes-here'
@@ -36,7 +36,7 @@ with app.app_context():
 
 @app.route('/')
 def home():
-    return render_template("index.html")
+    return render_template("index.html", logged_in=current_user.is_authenticated)
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -65,8 +65,8 @@ def register():
         # Log in the user
         login_user(new_user)
 
-        return redirect(url_for("secrets", name=name))
-    return render_template("register.html")
+        return redirect(url_for("secrets"))
+    return render_template("register.html", logged_in=current_user.is_authenticated)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -88,16 +88,16 @@ def login():
             else:
                 # This else statement gets triggered if the user logged in with no errors
                 login_user(check_email, remember=True)
+                return redirect(url_for('home'))
 
-
-    return render_template("login.html")
+    return render_template("login.html", logged_in=current_user.is_authenticated)
 
 
 @app.route('/secrets')
 @login_required
 def secrets():
     name = request.args.get("name")
-    return render_template("secrets.html", name=name)
+    return render_template("secrets.html", name=name, logged_in=current_user.is_authenticated)
 
 
 @app.route('/logout')
