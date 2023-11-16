@@ -71,7 +71,7 @@ def register():
         # Check if user is trying to register with an already-existing email
         check_email = db.session.execute(db.select(User).where(User.email == email)).scalar()
         if check_email:
-            flash("This email already exists. Log in.")
+            flash("This email already exists. Log in.", category='error')
             return redirect(url_for("login"))
         else:
             new_user = User(
@@ -86,13 +86,22 @@ def register():
     return render_template("register.html", form=form)
 
 
-# TODO: Retrieve a user from the database based on their email. 
-@app.route('/login')
+# Retrieve a user from the database based on their email.
+@app.route('/login', methods=["GET", "POST"])
 def login():
     """Log in as an existing user"""
     form = LoginForm()
     if form.validate_on_submit():
-        login_user(form.email.data.lower())
+        email = form.email.data.lower()
+        password = form.password.data
+        # Check if the email doesn't exist in the DB
+        check_email = db.session.execute(db.select(User).where(User.email == email)).scalar()
+        if not check_email:
+            flash("That email does not exist. Please try again.")
+        elif not check_password_hash(check_email.password, password):
+            flash("Password incorrect. Try again.")
+        else:
+            login_user(check_email)
     return render_template("login.html", form=form)
 
 
