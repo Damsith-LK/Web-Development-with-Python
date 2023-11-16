@@ -11,7 +11,7 @@ from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
 # Import your forms from the forms.py
-from forms import CreatePostForm
+from forms import CreatePostForm, RegisterForm
 
 
 app = Flask(__name__)
@@ -53,10 +53,20 @@ with app.app_context():
     db.create_all()
 
 
-# TODO: Use Werkzeug to hash the user's password when creating a new user.
-@app.route('/register')
+# Use Werkzeug to hash the user's password when creating a new user.
+@app.route('/register', methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    form = RegisterForm()
+    if form.validate_on_submit():
+        new_user = User(
+           name=form.name.data,
+           email=form.email.data.lower(),
+           password=generate_password_hash(form.password.data, "pbkdf2:sha256")
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect("/")
+    return render_template("register.html", form=form)
 
 
 # TODO: Retrieve a user from the database based on their email. 
