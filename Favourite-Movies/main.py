@@ -1,4 +1,5 @@
 # Day 64 - My Top 10 Favourite Movies Website
+# Day 71 - Do some minor changes
 """
 Requirements of this website
     1. Be Able to View Movie List Items - Done
@@ -47,11 +48,15 @@ class RateMovieForm(FlaskForm):
     rating = FloatField(label="Your rating out of 10, eg.7.5", validators=[DataRequired(), NumberRange(min=0, max=10)])
     review = StringField(label="Your Review", validators=[DataRequired(), Length(max=40)])
     submit = SubmitField(label="Done")
+    # Cancel button
+    cancel = SubmitField(label="Cancel", render_kw={"formnovalidate": True, "class": "btn btn-danger"})
 
 # Form to add new movies into the database
 class AddMovieForm(FlaskForm):
     title = StringField(label="Movie Title", validators=[DataRequired()])
     submit = SubmitField("Add Movie")
+    # Cancel button
+    cancel = SubmitField("Cancel", render_kw={"formnovalidate": True, "class": "btn btn-danger"})
 
 
 def get_movies(title) -> list:
@@ -97,6 +102,8 @@ def edit():
     # Adding an if here to prevent unnecessary requests, eg: just /edit instead of /edit?id=some_id
     if movie_id is not None:
         edit_form = RateMovieForm()
+        if edit_form.cancel.data:
+            return redirect(url_for("home"))
         if edit_form.validate_on_submit():
             with app.app_context():
                 to_update_movie = db.session.execute(db.Select(Movie).where(Movie.id == movie_id)).scalar()
@@ -122,6 +129,8 @@ def delete():
 def add():
     """For adding new movies into the database"""
     add_form = AddMovieForm()
+    if add_form.cancel.data:
+        return redirect(url_for("home"))
     if add_form.validate_on_submit():
         movie_title = add_form.title.data
         movies_info = get_movies(movie_title)
